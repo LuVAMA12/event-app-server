@@ -2,18 +2,19 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET
 
 export const authMiddleware = async (req, res, next) => {
-    console.log(`Middleware to verify if the user is loggedIn`)
     const token = req.headers.authorization?.split(' ') [1]
 
     if(!token) {
         return res.status(401).json('Access refused: no token provided')
     }
     try {
-      const verify = await jwt.verify(token,JWT_SECRET)
-      if(!verify) {
+        //the token being verify
+      const decoded = await jwt.verify(token,JWT_SECRET)
+      if(!decoded) {
         return res.status(403).json(`Access denied, wrong token`)
     }
-    req.user = verify
+    // I may pass the decoded token to the req.user
+    req.user = decoded
     next()
     } catch (error) {
         console.log(error)

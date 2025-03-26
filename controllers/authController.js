@@ -37,15 +37,15 @@ export const loginUser = async (req, res) => {
         // We search in the DB where the user email match the email provide by req.body.email
         const user = await User.findOne({email})
         if(!user){
-            return res.status(404).json(`Email or password invalid`)
+            return res.status(401).json(`Email or password invalid`)
         }
         // We compare the password hash value given by the req.body.password with the user.password hashed value
         const comparePassword = await bcrypt.compare(password, user.password)
         if(!comparePassword){
-            return res.status(404).json(`Email or password invalid`) 
+            return res.status(401).json(`Email or password invalid`) 
         }
         const token = await jwt.sign({id: user._id}, JWT_SECRET)
-        return res.status(200).json(token)
+        return res.status(200).json({message: `Welcome to ${user.first_name}`, token})
     } 
     catch (error) {
         console.log(error)
