@@ -16,9 +16,9 @@ export const getAllServices = async (req, res) => {
 export const getServiceByID = async (req, res) => {
    const {id} = req.params
     try {
-        const service = await Service.findById(id)
-        if (!service) return res.status(404).json('Service not found')
-        return res.status(200).json(service)
+        const serviceByID = await Service.findById(id).populate('userID', '-password')
+        if (!serviceByID) return res.status(404).json('Service not found')
+        return res.status(200).json(serviceByID)
     } catch (error) {
         console.log(error)
         return res.status(500).json(`Internal server error `)
@@ -26,8 +26,18 @@ export const getServiceByID = async (req, res) => {
 }
 
 export const createService = async (req, res) => {
+
+    const {title, description, price, category, address, availability} = req.body
     try {
-        const newService = await Service.create(req.body)
+        const newService = await Service.create({
+            title,
+            description,
+            price,
+            category, 
+            address, 
+            availability,
+            userID: req.user.id
+        })
         if (newService) {
             return res.status(201).json('New event created')
         }

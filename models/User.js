@@ -17,6 +17,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    image : {
+        type: String,
+    }
 })
 
 export default mongoose.model('User', userSchema)
