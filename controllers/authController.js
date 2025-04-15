@@ -20,7 +20,7 @@ export const createUser = async (req, res) => {
             last_name,
             email,
             password : hashedPassword,
-            image: '/public/images/' + req.file.filename
+            image: 'public/images/' + req.file.filename
         })
 
         newUser.save()
