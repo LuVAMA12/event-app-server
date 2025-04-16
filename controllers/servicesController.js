@@ -39,7 +39,7 @@ export const createService = async (req, res) => {
             userID: req.user.id
         })
         if (newService) {
-            return res.status(201).json('New event created')
+            return res.status(201).json({message:'New event created', newService})
         }
     } catch (error) {
         console.log(error)
