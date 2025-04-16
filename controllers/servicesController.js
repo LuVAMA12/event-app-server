@@ -32,6 +32,7 @@ export const createService = async (req, res) => {
         const newService = await Service.create({
             title,
             description,
+            image: 'public/images/' + req.file.filename,
             price,
             category, 
             address, 

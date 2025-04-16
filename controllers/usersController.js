@@ -34,3 +34,16 @@ export const getUserByID = async (req, res) => {
         return res.status(500).json(`Internal server error `)
     }
 }
+
+export const updateUserByID = async (req, res) => {
+    const {id} = req.user
+    try{
+        const updatedUser = await User.findByIdAndUpdate(id, req.body)
+        console.log(id)
+        if(!updatedUser) return res.status(404).json('User not found')
+            return res.status(200).json('User has been updated')
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(`Internal server error `)
+    }
+}
