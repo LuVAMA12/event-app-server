@@ -2,7 +2,7 @@ import Service from "../models/Service.js"
 
 export const getAllServices = async (req, res) => {
     try {
-        const services = await Service.find()
+        const services = await Service.find().populate('userID', '-password')
         if(services.length < 1) {
             return res.status(404).json('Services not found')
         }
